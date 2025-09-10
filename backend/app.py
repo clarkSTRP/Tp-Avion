@@ -33,5 +33,12 @@ def get_compagnie_code(ref):
         rows = [dict(r) for r in result.mappings()]
     return jsonify(rows)
 
+@app.get("/aeroports")
+def list_aeroports():
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT id, nom, code, ville FROM aeroport"))
+        rows = [dict(r) for r in result.mappings()]
+    return jsonify(rows)
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8000)
