@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS vol (
   aeroport_arrivee_id INT,
   heure_depart DATETIME,
   heure_arrivee DATETIME,
-  3
   prix DECIMAL(10,2),
   places_disponibles INT,
   FOREIGN KEY (compagnie_id) REFERENCES compagnie(id),
