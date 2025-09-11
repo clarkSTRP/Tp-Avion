@@ -19,8 +19,34 @@ def vols_endpoint(app):
         return jsonify(rows)
 
     @app.put("/vols/<ref>") # Modifier un vol
-    def modify_vols():
-        return jsonify({"message": "to do"})
+    def modify_vols(ref):
+        data = request.get_json()
+
+        allowed_fields = [
+            "numero_vol",
+            "compagnie_id",
+            "aeroport_depart_id",
+            "aeroport_arrivee_id",
+            "heure_depart",
+            "heure_arrivee",
+            "prix",
+            "places_disponibles"
+        ]
+        fields = {k: v for k, v in data.items() if k in allowed_fields and v is not None}
+
+        set_clause = ", ".join([f"{col} = :{col}" for col in fields.keys()])
+
+        fields["idVol"] = ref
+
+        with engine.begin() as conn:
+            result = conn.execute(
+                text(f"UPDATE vol SET {set_clause} WHERE id = :idVol"),
+                fields
+            )
+        if result.rowcount == 0:
+            return jsonify({"error": "Vol non trouve"}), 404
+
+        return jsonify({"message": "Vol mis a jour"}), 200
 
     @app.post("/vols")
     def add_vols():

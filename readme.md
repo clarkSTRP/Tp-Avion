@@ -2,7 +2,7 @@
 
 ## Liste des routes disponibles
 
-## Exemples de requêtes (curl ou Postman)
+## Exemples de requêtes
 #### Création d'une compagnie
 ```bash
 curl -X POST http://localhost:8000/compagnies   -H "Content-Type: application/json"   -d '{
@@ -32,6 +32,13 @@ curl -X POST http://localhost:8000/vols   -H "Content-Type: application/json"   
         "prix": 847.37,
         "places_disponibles": 60
       }'
+```
+#### Modification d'un vol
+```
+curl -X PUT http://localhost:8000/vols/1 \
+  -H "Content-Type: application/json" \
+  -d '{"prix": 199.99, "places_disponibles": 30}'
+
 ```
 
 #### Création d'un passager:
