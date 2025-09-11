@@ -15,6 +15,8 @@ def reservations_endpoint(app):
     def add_reservations():
         return jsonify({"message": "to do"})
 
-    @app.delete("/reservations") # Supprimer une réservation
-    def del_aeroports():
-        return jsonify({"message": "to do (delete)"})
+    @app.delete("/reservations/<ref>") # Supprimer une réservation
+    def del_aeroports(ref):
+        with engine.begin() as conn:
+            result = conn.execute(text("DELETE FROM reservation Where passager_id =:ref"),{"ref": ref})
+        return jsonify({"mesage": "success"})
