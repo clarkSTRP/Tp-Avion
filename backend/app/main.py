@@ -1,6 +1,4 @@
 from flask import Flask, jsonify
-
-# import the per-route registrars
 from .routes.compagnies import compagnies_endpoint
 from app.routes.aeroports   import aeroports_endpoint
 from app.routes.vols        import vols_endpoint
@@ -14,7 +12,6 @@ def create_app():
     def index():
      return jsonify({"message": "Tp-Avion"})
    
-    # attach routes (no blueprints, just functions)
     compagnies_endpoint(app)
     vols_endpoint(app)
     passagers_endpoint(app)
@@ -26,5 +23,4 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    # python -m app.main
     app.run(host="0.0.0.0", port=8000)
