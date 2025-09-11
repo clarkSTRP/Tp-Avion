@@ -18,6 +18,10 @@ def vols_endpoint(app):
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows)
 
-    @app.put("/vols/<ref>") # Créer un vol
+    @app.put("/vols/<ref>") # Modifier un vol
+    def modify_vols():
+        return jsonify({"message": "to do"})
+
+    @app.post("/vols") # Créer un vol
     def add_vols():
         return jsonify({"message": "to do"})

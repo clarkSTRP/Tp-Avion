@@ -11,6 +11,24 @@ def aeroports_endpoint(app):
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows)
 
-    @app.post("/aeroports") # Créer un aéroport
+    @app.post("/aeroports")
     def add_aeroports():
-        return jsonify({"message": "to do"})
+        data = request.get_json() # Requiert du JSON en entrée
+
+        nom = data.get("nom")
+        code = data.get("code")
+        ville = data.get("ville")
+
+        with engine.begin() as conn:
+            result = conn.execute(
+                text("INSERT INTO aeroport (nom, code, ville) VALUES (:nom, :code, :ville)"),
+                {
+                    "nom": nom,
+                    "code": code,
+                    "ville": ville,
+                }
+            )
+
+        return jsonify({
+            "message": "Aeroport cree",
+        })
