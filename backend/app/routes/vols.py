@@ -22,6 +22,34 @@ def vols_endpoint(app):
     def modify_vols():
         return jsonify({"message": "to do"})
 
-    @app.post("/vols") # Créer un vol
+    @app.post("/vols")
     def add_vols():
-        return jsonify({"message": "to do"})
+        data = request.get_json() # Requiert du JSON en entrée
+
+        numero_vol = data.get("numero_vol")
+        compagnie_id = data.get("compagnie_id")
+        aeroport_depart_id = data.get("aeroport_depart_id")
+        aeroport_arrivee_id = data.get("aeroport_arrivee_id")
+        heure_depart = data.get("heure_depart")
+        heure_arrivee = data.get("heure_arrivee")
+        prix = data.get("prix")
+        places_disponibles = data.get("places_disponibles")
+
+        with engine.begin() as conn:
+            result = conn.execute(
+                text("INSERT INTO vol (numero_vol, compagnie_id, aeroport_depart_id, aeroport_arrivee_id, heure_depart, heure_arrivee, prix, places_disponibles) VALUES (:numero_vol, :compagnie_id, :aeroport_depart_id, :aeroport_arrivee_id, :heure_depart, :heure_arrivee, :prix, :places_disponibles)"),
+                {
+                    "numero_vol": numero_vol,
+                    "compagnie_id": compagnie_id,
+                    "aeroport_depart_id": aeroport_depart_id,
+                    "aeroport_arrivee_id": aeroport_arrivee_id,
+                    "heure_depart": heure_depart,
+                    "heure_arrivee": heure_arrivee,
+                    "prix": prix,
+                    "places_disponibles": places_disponibles
+                }
+            )
+
+        return jsonify({
+            "message": "vol cree",
+        })

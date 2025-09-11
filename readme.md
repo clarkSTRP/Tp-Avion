@@ -20,6 +20,20 @@ curl -X POST http://localhost:8000/aeroports   -H "Content-Type: application/jso
       }'
 ```
 
+#### Creation d'un vol
+```bash
+curl -X POST http://localhost:8000/vols   -H "Content-Type: application/json"   -d '{
+        "numero_vol": "FR555",
+        "compagnie_id": 4,
+        "aeroport_depart_id": 5,
+        "aeroport_arrivee_id": 4,
+        "heure_depart": "2026-09-12 08:30:00",
+        "heure_arrivee": "2029-12-12 08:30:00",
+        "prix": 847.37,
+        "places_disponibles": 60
+      }'
+```
+
 #### Création d'un passager:
 ```bash
 curl -X POST http://localhost:8000/passager   -H "Content-Type: application/json"   -d '{
