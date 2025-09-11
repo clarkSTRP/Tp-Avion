@@ -44,5 +44,11 @@ CREATE TABLE IF NOT EXISTS reservation (
   FOREIGN KEY (vol_id) REFERENCES vol(id)
 );
 
+CREATE TABLE IF NOT EXISTS api_keys (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    api_key VARCHAR(255) NOT NULL UNIQUE
+);
+
 INSERT INTO compagnie (nom, code) VALUES ("Air France", "AF"), ("British Airways", "BA"), ("Lufthansa", "LH"), ("Emirates", "EK"), ("Qatar Airways", "QR"), ("Singapore Airlines", "SQ"), ("Cathay Pacific", "CX"), ("ANA", "NH"), ("Japan Airlines", "JL"), ("KLM", "KL");
+INSERT INTO api_keys (api_key) VALUES ('cle1');
 

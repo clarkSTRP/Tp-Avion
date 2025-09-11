@@ -1,10 +1,12 @@
 from flask import request, jsonify, abort
 from sqlalchemy import text
 from ..connect import engine
+from app.auth import require_api_key
 
 def compagnies_endpoint(app):
     
     @app.get("/compagnies")
+    @require_api_key
     def list_compagnies():
         with engine.connect() as conn:
             res = conn.execute(text("SELECT id, nom, code FROM compagnie"))
