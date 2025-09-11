@@ -17,3 +17,7 @@ def vols_endpoint(app):
             result = conn.execute(text("SELECT * FROM vol Where LOWER(numero_vol) = LOWER(:ref)"),{"ref": ref})
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows)
+
+    @app.post("/vols") # Créer un vol
+    def add_vols():
+        return jsonify({"message": "to do"})

@@ -10,3 +10,7 @@ def aeroports_endpoint(app):
             result = conn.execute(text("SELECT id, nom, code, ville FROM aeroport"))
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows)
+
+    @app.post("/aeroports") # Créer un aéroport
+    def add_aeroports():
+        return jsonify({"message": "to do"})

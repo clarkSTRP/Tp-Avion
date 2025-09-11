@@ -10,3 +10,7 @@ def passagers_endpoint(app):
             result = conn.execute(text("SELECT * FROM passager Where LOWER(passport_numero) = LOWER(:ref)"),{"ref": ref})
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows)
+
+    @app.post("/passager") # Créer un passager
+    def add_passager():
+        return jsonify({"message": "to do"})
