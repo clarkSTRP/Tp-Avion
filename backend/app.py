@@ -79,6 +79,4 @@ def list_reservations():
         result = conn.execute(text("SELECT id, passager_id, vol_id, status, date_reservation FROM reservation"))
         rows = [dict(r) for r in result.mappings()]
     return jsonify(rows)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000)
+ 
