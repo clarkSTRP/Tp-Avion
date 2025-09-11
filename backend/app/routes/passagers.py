@@ -11,6 +11,26 @@ def passagers_endpoint(app):
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows)
 
-    @app.post("/passager") # Créer un passager
+    @app.post("/passager")
     def add_passager():
-        return jsonify({"message": "to do"})
+        data = request.get_json() # Requiert du JSON en entrée
+
+        nom = data.get("nom")
+        email = data.get("email")
+        tel = data.get("tel")
+        passport_numero = data.get("passport_numero")
+
+        with engine.begin() as conn:
+            result = conn.execute(
+                text("INSERT INTO passager (nom, email, tel, passport_numero) VALUES (:nom, :email, :tel, :passport_numero)"),
+                {
+                    "nom": nom,
+                    "email": email,
+                    "tel": tel,
+                    "passport_numero": passport_numero
+                }
+            )
+
+        return jsonify({
+            "message": "Passager cree",
+        })
