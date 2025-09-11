@@ -3,8 +3,16 @@
 ## Liste des routes disponibles
 
 ## Exemples de requêtes (curl ou Postman)
-#### Création d'un aéroport:
+#### Création d'une compagnie
+```bash
+curl -X POST http://localhost:8000/compagnies   -H "Content-Type: application/json"   -d '{
+        "nom": "La compagnie test",
+        "code": "TT"
+      }'
 ```
+
+#### Création d'un aéroport:
+```bash
 curl -X POST http://localhost:8000/aeroports   -H "Content-Type: application/json"   -d '{
         "nom": "Aeroport TEST",
         "code": "TST",
@@ -13,7 +21,7 @@ curl -X POST http://localhost:8000/aeroports   -H "Content-Type: application/jso
 ```
 
 #### Création d'un passager:
-```
+```bash
 curl -X POST http://localhost:8000/passager   -H "Content-Type: application/json"   -d '{
         "nom": "Prenom NOM",
         "email": "email@domain.fr",

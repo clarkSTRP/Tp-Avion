@@ -17,6 +17,22 @@ def compagnies_endpoint(app):
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows)
 
-    @app.post("/compagnie") # Créer une compagnie
-    def add_acompagnie():
-        return jsonify({"message": "to do"})
+    @app.post("/compagnies")
+    def add_compagnie():
+        data = request.get_json() # Requiert du JSON en entrée
+
+        nom = data.get("nom")
+        code = data.get("code")
+
+        with engine.begin() as conn:
+            result = conn.execute(
+                text("INSERT INTO compagnie (nom, code) VALUES (:nom, :code)"),
+                {
+                    "nom": nom,
+                    "code": code
+                }
+            )
+
+        return jsonify({
+            "message": "Compagnie creee",
+        })

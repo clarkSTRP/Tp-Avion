@@ -25,7 +25,7 @@ def aeroports_endpoint(app):
                 {
                     "nom": nom,
                     "code": code,
-                    "ville": ville,
+                    "ville": ville
                 }
             )
 
