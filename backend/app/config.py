@@ -1,4 +1,5 @@
 import os
+from sqlalchemy import create_engine
 
 # Variable d'environnement pour la configuration de la base de données
 # TODO enlever les valeurs par défaut pour la production
@@ -11,3 +12,4 @@ DB_NAME = os.getenv("DB_NAME", "tp_avion")
 DATABASE_URL = (
     f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4"
 )
+engine = create_engine(DATABASE_URL)

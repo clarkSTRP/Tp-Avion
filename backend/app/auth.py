@@ -1,6 +1,7 @@
 from flask import request, abort
 from functools import wraps
-from app.db import engine  # Adapte ce chemin si besoin
+from sqlalchemy import text
+from app.config import engine  # ou app.db si tu changes
 
 def require_api_key(func):
     @wraps(func)
@@ -10,7 +11,7 @@ def require_api_key(func):
         if not api_key:
             abort(401, description="API key required")
         with engine.connect() as conn:
-            result = conn.execute("SELECT 1 FROM api_keys WHERE api_key = %s", (api_key,))
+            result = conn.execute(text("SELECT 1 FROM api_keys WHERE api_key = :api_key"), {"api_key": api_key})
             if not result.first():
                 abort(403, description="Invalid API key")
         return func(*args, **kwargs)

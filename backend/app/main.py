@@ -2,7 +2,7 @@ from flask import Flask, jsonify
 
 # import the per-route registrars
 from app.routes.compagnies import compagnies_endpoint
-from .routes.compagnies import compagnies_endpoint
+from app.routes.compagnies import compagnies_endpoint
 from app.routes.aeroports   import aeroports_endpoint
 from app.routes.vols        import vols_endpoint
 from app.routes.passagers   import passagers_endpoint
