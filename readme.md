@@ -34,7 +34,7 @@ curl -X POST http://localhost:8000/vols   -H "Content-Type: application/json"   
       }'
 ```
 #### Modification d'un vol
-```
+```bash
 curl -X PUT http://localhost:8000/vols/1 \
   -H "Content-Type: application/json" \
   -d '{"prix": 199.99, "places_disponibles": 30}'
@@ -76,8 +76,6 @@ CMD ["python", "-m", "app.main"]
 ```
 #### docker-compose.yml
 ```yml
-version: "3.9"
-
 services:
   db:
     image: mysql:8.0
