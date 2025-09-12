@@ -18,6 +18,7 @@ def reservations_endpoint(app):
 
 
     @app.post("/reservations")
+    @require_api_key
     def add_reservations():
         data = request.get_json() # Requiert du JSON en entrée
 
@@ -45,6 +46,7 @@ def reservations_endpoint(app):
         return jsonify({"message": "Reservation creee"}), 201
 
     @app.delete("/reservations/<ref>") # Supprimer une réservation
+    @require_api_key
     def del_aeroports(ref):
         with engine.begin() as conn:
             send_log("INFO", f"suppression de la reservation {ref}")

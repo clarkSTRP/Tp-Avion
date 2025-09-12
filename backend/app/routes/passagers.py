@@ -16,6 +16,7 @@ def passagers_endpoint(app):
         return jsonify(rows), 200
 
     @app.post("/passager")
+    @require_api_key
     def add_passager():
 
         data = request.get_json() # Requiert du JSON en entrée
