@@ -20,10 +20,8 @@ def compagnies_endpoint(app):
     @app.post("/compagnies")
     def add_compagnie():
         data = request.get_json() # Requiert du JSON en entrée
-
         nom = data.get("nom")
         code = data.get("code")
-
         with engine.begin() as conn:
             result = conn.execute(
                 text("INSERT INTO compagnie (nom, code) VALUES (:nom, :code)"),
@@ -32,7 +30,6 @@ def compagnies_endpoint(app):
                     "code": code
                 }
             )
-
         return jsonify({
             "message": "Compagnie creee",
         })

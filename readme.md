@@ -1,6 +1,50 @@
 ## Instruction d'installation
 
 ## Liste des routes disponibles
+<details>
+<summary>Routes de compagnie</summary>
+
+- `GET /compagnies` Liste les compagnies
+- `GET /compagnies/<nom>` Affiche les détails d'une compagnie
+- `POST /compagnie` Crée une compagnie (préciser les informations en JSON)
+
+</details>
+
+<details>
+<summary>Routes de aéroports</summary>
+
+- `GET /aeroports` Liste les aéroports
+- `POST /aeroports` Crée un aéroport
+
+</details>
+
+<details>
+<summary>Routes de vols</summary>
+
+- `GET /vols` Afficher la liste des vols
+- `GET /vols/<numero_vol>` Afficher les détails d'un vol en particulier
+- `POST /vols` Créer un vol
+- `PUT /vols/<idVol>` Modifier un vol
+
+</details>
+
+<details>
+<summary>Routes de passagers</summary>
+
+- `GET /passager/<passport_numero>` Afficher les détails sur un passager
+- `POST /passager` Créer un passager
+
+</details>
+
+<details>
+<summary>Routes de réservations</summary>
+
+- `GET /reservations` Afficher les réservations
+- `POST /reservations` Créer une réservation
+- `DELETE /reservations` Annuler une réservation
+
+</details>
+
 
 ## Exemples de requêtes
 #### Création d'une compagnie
@@ -37,8 +81,8 @@ curl -X POST http://localhost:8000/vols   -H "Content-Type: application/json"   
 ```bash
 curl -X PUT http://localhost:8000/vols/1 \
   -H "Content-Type: application/json" \
-  -d '{"prix": 199.99, "places_disponibles": 30}'
-
+  -d '{"prix": 199.99, "places_disponibles": 30
+  }'
 ```
 
 #### Création d'un passager:
