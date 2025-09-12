@@ -2,7 +2,7 @@ from flask import request, jsonify, abort
 from app.agents.log_agent import send_log
 from sqlalchemy import text
 from ..connect import engine
-from app.agents.log_agent import log_to_service
+from app.agents.log_agent import send_log
 from app.auth import require_api_key
 
 def compagnies_endpoint(app):
