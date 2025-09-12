@@ -1,10 +1,12 @@
 from flask import request, jsonify, abort
 from sqlalchemy import text
 from ..connect import engine
+from app.auth import require_api_key
 
 def vols_endpoint(app):
     
     @app.get("/vols") #Afficher tous les vols disponibles
+    @require_api_key
     def list_vols():
         with engine.connect() as conn:
             result = conn.execute(text("SELECT id, numero_vol, aeroport_depart_id, aeroport_arrivee_id, prix, places_disponibles FROM vol"))
@@ -12,6 +14,7 @@ def vols_endpoint(app):
         return jsonify(rows), 200
     
     @app.get("/vols/<ref>") # Afficher détail d'un vol
+    @require_api_key
     def get_vols_code(ref):
         with engine.connect() as conn:
             result = conn.execute(text("SELECT numero_vol, compagnie_id, aeroport_depart_id, aeroport_arrivee_id, heure_depart, heure_arrivee, prix, places_disponibles FROM vol Where LOWER(numero_vol) = LOWER(:ref)"),{"ref": ref})

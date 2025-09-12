@@ -1,11 +1,13 @@
 from flask import request, jsonify, abort
 from sqlalchemy import text
 from ..connect import engine
+from app.auth import require_api_key
 from datetime import datetime, timezone, timedelta
 
 def reservations_endpoint(app):
     
     @app.get("/reservations") #Afficher tous les vols disponibles
+    @require_api_key
     def list_reservations():
         with engine.connect() as conn:
             result = conn.execute(text("SELECT id, passager_id, vol_id, status, date_reservation FROM reservation"))
