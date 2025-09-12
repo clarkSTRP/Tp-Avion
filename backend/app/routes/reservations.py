@@ -10,7 +10,7 @@ def reservations_endpoint(app):
         with engine.connect() as conn:
             result = conn.execute(text("SELECT id, passager_id, vol_id, status, date_reservation FROM reservation"))
             rows = [dict(r) for r in result.mappings()]
-        return jsonify(rows)
+        return jsonify(rows), 200
 
 
     @app.post("/reservations")
@@ -37,12 +37,10 @@ def reservations_endpoint(app):
                 }
             )
 
-        return jsonify({
-            "message": "Reservation creee",
-        }), 201
+        return jsonify({"message": "Reservation creee"}), 201
 
     @app.delete("/reservations/<ref>") # Supprimer une réservation
     def del_aeroports(ref):
         with engine.begin() as conn:
             result = conn.execute(text("DELETE FROM reservation Where passager_id =:ref"),{"ref": ref})
-        return jsonify({"mesage": "success"})
+        return jsonify({"mesage": "success"}), 202
