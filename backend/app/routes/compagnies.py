@@ -1,5 +1,4 @@
 from flask import request, jsonify, abort
-from app.agents.log_agent import send_log
 from sqlalchemy import text
 from ..connect import engine
 from app.agents.log_agent import send_log
@@ -16,17 +15,21 @@ def compagnies_endpoint(app):
 
     @app.get("/compagnies/<ref>")
     def get_compagnie_code(ref):
+
         with engine.connect() as conn:
+            send_log("INFO", f"Detail de la compagnie demandée {ref}")
             result = conn.execute(text("SELECT id, nom, code FROM compagnie Where LOWER(nom) = LOWER(:ref)"),{"ref": ref})
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows), 200
 
     @app.post("/compagnies")
     def add_compagnie():
+
         data = request.get_json() # Requiert du JSON en entrée
         nom = data.get("nom")
         code = data.get("code")
         with engine.begin() as conn:
+            send_log("INFO", f"Detail de la compagnie demandée {nom,code}")
             result = conn.execute(
                 text("INSERT INTO compagnie (nom, code) VALUES (:nom, :code)"),
                 {

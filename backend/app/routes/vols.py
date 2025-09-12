@@ -2,6 +2,7 @@ from flask import request, jsonify, abort
 from sqlalchemy import text
 from ..connect import engine
 from app.auth import require_api_key
+from app.agents.log_agent import send_log
 
 def vols_endpoint(app):
     
@@ -9,6 +10,7 @@ def vols_endpoint(app):
     @require_api_key
     def list_vols():
         with engine.connect() as conn:
+            send_log("INFO", "Liste des vols demandée")
             result = conn.execute(text("SELECT id, numero_vol, aeroport_depart_id, aeroport_arrivee_id, prix, places_disponibles FROM vol"))
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows), 200
@@ -17,6 +19,7 @@ def vols_endpoint(app):
     @require_api_key
     def get_vols_code(ref):
         with engine.connect() as conn:
+            send_log("INFO", f"Detail du vol {ref} demandée")
             result = conn.execute(text("SELECT numero_vol, compagnie_id, aeroport_depart_id, aeroport_arrivee_id, heure_depart, heure_arrivee, prix, places_disponibles FROM vol Where LOWER(numero_vol) = LOWER(:ref)"),{"ref": ref})
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows), 200
@@ -42,6 +45,7 @@ def vols_endpoint(app):
         fields["idVol"] = ref
 
         with engine.begin() as conn:
+            send_log("INFO", f"modification de la reservation {ref}")
             result = conn.execute(
                 text(f"UPDATE vol SET {set_clause} WHERE id = :idVol"),
                 fields
@@ -65,6 +69,7 @@ def vols_endpoint(app):
         places_disponibles = data.get("places_disponibles")
 
         with engine.begin() as conn:
+            send_log("INFO", f"creation du vol {numero_vol}{compagnie_id}{aeroport_depart_id}{aeroport_arrivee_id}{heure_depart}{heure_arrivee}{prix}{places_disponibles}")
             result = conn.execute(
                 text("INSERT INTO vol (numero_vol, compagnie_id, aeroport_depart_id, aeroport_arrivee_id, heure_depart, heure_arrivee, prix, places_disponibles) VALUES (:numero_vol, :compagnie_id, :aeroport_depart_id, :aeroport_arrivee_id, :heure_depart, :heure_arrivee, :prix, :places_disponibles)"),
                 {

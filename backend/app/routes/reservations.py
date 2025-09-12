@@ -3,6 +3,7 @@ from sqlalchemy import text
 from ..connect import engine
 from app.auth import require_api_key
 from datetime import datetime, timezone, timedelta
+from app.agents.log_agent import send_log
 
 def reservations_endpoint(app):
     
@@ -10,6 +11,7 @@ def reservations_endpoint(app):
     @require_api_key
     def list_reservations():
         with engine.connect() as conn:
+            send_log("INFO", "liste des reservations demandée")
             result = conn.execute(text("SELECT id, passager_id, vol_id, status, date_reservation FROM reservation"))
             rows = [dict(r) for r in result.mappings()]
         return jsonify(rows), 200
@@ -29,6 +31,7 @@ def reservations_endpoint(app):
         date_reservation = data.get("date_reservation", horaire_utc2)
 
         with engine.begin() as conn:
+            send_log("INFO", f"creation des reservation {vol_id}{status}{passager_id}{date_reservation}")
             result = conn.execute(
                 text("INSERT INTO reservation (passager_id, vol_id, status, date_reservation) VALUES (:passager_id, :vol_id, :status, :date_reservation)"),
                 {
@@ -44,5 +47,6 @@ def reservations_endpoint(app):
     @app.delete("/reservations/<ref>") # Supprimer une réservation
     def del_aeroports(ref):
         with engine.begin() as conn:
+            send_log("INFO", f"suppression de la reservation {ref}")
             result = conn.execute(text("DELETE FROM reservation Where passager_id =:ref"),{"ref": ref})
         return jsonify({"mesage": "success"}), 202
