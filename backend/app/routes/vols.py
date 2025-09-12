@@ -53,6 +53,7 @@ def vols_endpoint(app):
         return jsonify({"message": "Vol mis a jour"}), 200
 
     @app.post("/vols")
+    @require_api_key
     def add_vols():
         data = request.get_json() # Requiert du JSON en entrée
 
