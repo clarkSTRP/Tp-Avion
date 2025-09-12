@@ -1,11 +1,11 @@
 import os
 
-LOG_DB_USER = os.getenv("LOG_DB_USER", "log_user")
-LOG_DB_PASS = os.getenv("LOG_DB_PASS", "log_pass")
-LOG_DB_HOST = os.getenv("LOG_DB_HOST", "log-db")
-LOG_DB_PORT = os.getenv("LOG_DB_PORT", "3306")
-LOG_DB_NAME = os.getenv("LOG_DB_NAME", "log_db")
+DB_USER = os.getenv("DB_USER", "tp_user")
+DB_PASS = os.getenv("DB_PASS", "tp_pass")
+DB_HOST = os.getenv("DB_HOST", "db")
+DB_PORT = os.getenv("DB_PORT", "3306")
+DB_NAME = os.getenv("DB_NAME", "tp_avion")
 
 DATABASE_URL = (
-    f"mysql+pymysql://{LOG_DB_USER}:{LOG_DB_PASS}@{LOG_DB_HOST}:{LOG_DB_PORT}/{LOG_DB_NAME}?charset=utf8mb4"
+    f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}?charset=utf8mb4"
 )

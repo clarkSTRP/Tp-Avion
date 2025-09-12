@@ -1,4 +1,5 @@
 from flask import request, jsonify, abort
+from app.agents.log_agent import send_log
 from sqlalchemy import text
 from ..connect import engine
 from app.agents.log_agent import log_to_service
@@ -9,7 +10,7 @@ def compagnies_endpoint(app):
     @app.get("/compagnies")
     def list_compagnies():
         with engine.connect() as conn:
-            log_to_service("User listed company", level="INFO")
+            send_log("INFO", "Liste des compagnies demandée")
             res = conn.execute(text("SELECT id, nom, code FROM compagnie"))
             return jsonify([dict(r) for r in res.mappings()]), 200
 
