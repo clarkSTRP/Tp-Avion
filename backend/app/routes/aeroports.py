@@ -14,6 +14,7 @@ def aeroports_endpoint(app):
         return jsonify(rows), 200
 
     @app.post("/aeroports")
+    @require_api_key
     def add_aeroports():
         data = request.get_json() # Requiert du JSON en entrée
 

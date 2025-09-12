@@ -22,6 +22,7 @@ def vols_endpoint(app):
         return jsonify(rows), 200
 
     @app.put("/vols/<ref>") # Modifier un vol
+    @require_api_key
     def modify_vols(ref):
         data = request.get_json()
 
