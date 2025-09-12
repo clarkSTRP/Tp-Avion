@@ -1,4 +1,22 @@
 ## Instruction d'installation
+#### Prérequis:
+- Docker installé & allumé
+- Git
+
+#### Téléchargement de la branche principale (stable)
+```
+git clone https://github.com/clarkSTRP/Tp-Avion
+```
+
+#### Lancement du conteneur
+```
+docker compose up --build
+```
+
+#### Après arrêt du docker, vous pouvez effacer les informations laissées en mémoire avec
+```
+docker compose down -v
+```
 
 ## Liste des routes disponibles
 <details>
