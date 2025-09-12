@@ -9,7 +9,7 @@ def passagers_endpoint(app):
         with engine.connect() as conn:
             result = conn.execute(text("SELECT * FROM passager Where LOWER(passport_numero) = LOWER(:ref)"),{"ref": ref})
             rows = [dict(r) for r in result.mappings()]
-        return jsonify(rows)
+        return jsonify(rows), 200
 
     @app.post("/passager")
     def add_passager():
@@ -31,6 +31,4 @@ def passagers_endpoint(app):
                 }
             )
 
-        return jsonify({
-            "message": "Passager cree",
-        })
+        return jsonify({"message": "Passager cree"}), 201

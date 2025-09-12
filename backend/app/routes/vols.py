@@ -76,6 +76,4 @@ def vols_endpoint(app):
                 }
             )
 
-        return jsonify({
-            "message": "vol cree",
-        })
+        return jsonify({"message": "vol cree"}), 201

@@ -8,14 +8,14 @@ def compagnies_endpoint(app):
     def list_compagnies():
         with engine.connect() as conn:
             res = conn.execute(text("SELECT id, nom, code FROM compagnie"))
-            return jsonify([dict(r) for r in res.mappings()])
+            return jsonify([dict(r) for r in res.mappings()]), 200
 
     @app.get("/compagnies/<ref>")
     def get_compagnie_code(ref):
         with engine.connect() as conn:
             result = conn.execute(text("SELECT id, nom, code FROM compagnie Where LOWER(nom) = LOWER(:ref)"),{"ref": ref})
             rows = [dict(r) for r in result.mappings()]
-        return jsonify(rows)
+        return jsonify(rows), 200
 
     @app.post("/compagnies")
     def add_compagnie():
@@ -30,6 +30,4 @@ def compagnies_endpoint(app):
                     "code": code
                 }
             )
-        return jsonify({
-            "message": "Compagnie creee",
-        })
+        return jsonify({"message": "Compagnie creee"}), 201

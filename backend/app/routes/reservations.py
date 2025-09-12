@@ -39,7 +39,7 @@ def reservations_endpoint(app):
 
         return jsonify({
             "message": "Reservation creee",
-        })
+        }), 201
 
     @app.delete("/reservations/<ref>") # Supprimer une réservation
     def del_aeroports(ref):
