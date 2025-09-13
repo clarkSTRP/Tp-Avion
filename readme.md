@@ -1,4 +1,7 @@
 ## Instruction d'installation
+<details>
+        <summary>Docker en local</summary>
+        
 #### Prérequis:
 - Docker installé & allumé
 - Git
@@ -17,6 +20,37 @@ docker compose up --build
 ```
 docker compose down -v
 ```
+</details>
+
+<details>
+        <summary>Docker orchestré avec K8s (1 master 2 workers)</summary>
+        
+#### Prérequis:
+- 3 machines virtuelles (VM) Ubuntu server minimal
+
+#### Téléchargement des paquets (sur chaque VM)
+##### Docker
+```
+sudo apt install -y docker.io
+sudo systemctl enable docker
+sudo systelctl start docker
+```
+##### Kubernetes (K8s)
+```
+sudo apt install -y apt-transport-https ca-certificates curl
+sudo snap install kubeadm kubectl kubelet
+```
+
+#### Lancement du conteneur
+```
+docker compose up --build
+```
+
+#### Après arrêt du docker, vous pouvez effacer les informations laissées en mémoire avec
+```
+docker compose down -v
+```
+</details>
 
 ## Liste des routes disponibles
 <details>
