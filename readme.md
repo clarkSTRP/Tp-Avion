@@ -38,12 +38,16 @@ sudo systelctl start docker
 ##### Kubernetes (K8s)
 ```
 sudo apt install -y apt-transport-https ca-certificates curl
-sudo snap install kubeadm kubectl kubelet
+sudo snap refresh core20
+sudo snap install kubectl --classic
+kubectl version --client
+sudo snap install kubeadm --classic
+sudo snap install kubelet --classic
 ```
 
-#### Lancement du conteneur
+#### Initialisation du cluster sur la VM master
 ```
-docker compose up --build
+
 ```
 
 #### Après arrêt du docker, vous pouvez effacer les informations laissées en mémoire avec
