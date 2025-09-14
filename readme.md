@@ -70,7 +70,21 @@ sudo systemctl restart containerd
 sudo systemctl enable containerd
 
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
-sysctl net.bridge.bridge-nf-call-iptables = 1
+echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
+```
+```
+sudo modprobe br_netfilter
+sudo modprobe overlay
+sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward = 1
+EOF
+sudo sysctl --system
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+sudo systemctl restart kubelet
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
 ```
 
