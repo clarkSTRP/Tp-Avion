@@ -51,8 +51,11 @@ sudo swapoff -a
 sudo sed -i '/ swap / s/ˆ\(.*\)$/#\1/g' /etc/fstab
 echo "vm.swappiness=0" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
-sudo apt install -y apt-transport-https gpg
-
+sudo apt install -y apt-transport-https gpg containerd -y
+sudo mkdir -p /etc/containerd
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl enable containerd
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
@@ -63,12 +66,6 @@ sudo systemctl enable --now kubelet
 
 #### Initialisation du cluster sur la VM master
 ```
-sudo apt install containerd -y
-sudo mkdir -p /etc/containerd
-sudo containerd config default | sudo tee /etc/containerd/config.toml
-sudo systemctl restart containerd
-sudo systemctl enable containerd
-
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
 ```
