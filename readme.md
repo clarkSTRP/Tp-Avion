@@ -31,18 +31,34 @@ docker compose down -v
 #### Téléchargement des paquets (sur chaque VM)
 ##### Docker
 ```
-sudo apt install -y docker.io
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
 sudo systemctl enable docker
-sudo systelctl start docker
+sudo systemctl start docker
 ```
 ##### Kubernetes (K8s)
 ```
-sudo apt install -y apt-transport-https ca-certificates curl
-sudo snap refresh core20
-sudo snap install kubectl --classic
-kubectl version --client
-sudo snap install kubeadm --classic
-sudo snap install kubelet --classic
+sudo swapoff -a
+sudo sed -i '/ swap / s/ˆ\(.*\)$/#\1/g' /etc/fstab
+echo "vm.swappiness=0" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
+sudo apt install -y apt-transport-https gpg
+
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.34/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+sudo systemctl enable --now kubelet
 ```
 
 #### Initialisation du cluster sur la VM master
