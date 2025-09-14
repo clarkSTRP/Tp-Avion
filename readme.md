@@ -15,7 +15,7 @@ git clone https://github.com/clarkSTRP/Tp-Avion
 ```
 docker compose up --build
 ```
-
+readme.md
 #### Après arrêt du docker, vous pouvez effacer les informations laissées en mémoire avec
 ```
 docker compose down -v
@@ -26,7 +26,7 @@ docker compose down -v
         <summary>Docker orchestré avec K8s (1 master 2 workers)</summary>
         
 #### Prérequis:
-- 3 machines virtuelles (VM) Ubuntu server minimal
+- 3 machines virtuelles (VM) Ubuntu server **vierge**
 
 #### Téléchargement des paquets (sur chaque VM)
 ##### Docker
@@ -63,7 +63,15 @@ sudo systemctl enable --now kubelet
 
 #### Initialisation du cluster sur la VM master
 ```
+sudo apt install containerd -y
+sudo mkdir -p /etc/containerd
+sudo containerd config default | sudo tee /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl enable containerd
 
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+sysctl net.bridge.bridge-nf-call-iptables = 1
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
 ```
 
 #### Après arrêt du docker, vous pouvez effacer les informations laissées en mémoire avec
