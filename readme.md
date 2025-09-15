@@ -87,7 +87,7 @@ echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sudo systemctl restart kubelet
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
+kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 ```
 
 #### Ajout des pods au cluster
