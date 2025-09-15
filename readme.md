@@ -73,11 +73,6 @@ mkdir -p $HOME/.kube
 
 #### Initialisation du cluster sur la VM master
 ```
-for port in 6443 2379 10248 2380 10250 10251 10252 10255 30000:32767; do
-    sudo iptables -A INPUT -p tcp --dport $port -j ACCEPT
-done
-sudo iptables -A INPUT -p udp --dport 8472 -j ACCEPT
-sudo iptables -A INPUT -s 171.15.75.0/24 -j ACCEPT # à adapter en fonction du CIDR des machines
 sudo modprobe br_netfilter
 sudo modprobe overlay
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
@@ -87,13 +82,15 @@ echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sudo systemctl restart kubelet
-kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+sudo kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 ```
 
 #### Ajout des pods au cluster
+Obtenir la commande pour relier au master (à exécuter sur le master). Cette commande sera à copier sur chacun des workers.
 ```
 kubeadm token create --print-join-command
 ```
+
 </details>
 
 ## Liste des routes disponibles
