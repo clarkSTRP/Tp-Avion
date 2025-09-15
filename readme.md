@@ -52,8 +52,9 @@ sudo sed -i '/ swap / s/ˆ\(.*\)$/#\1/g' /etc/fstab
 echo "vm.swappiness=0" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
 sudo apt install -y apt-transport-https gpg containerd.io containerd ca-certificates curl -y
-sudo mkdir -p /etc/containerd
-sudo containerd config default | sudo tee /etc/containerd/config.toml
+sudo sh -c "containerd config default > /etc/containerd/config.toml"
+sudo sed -i 's/ SystemdCgroup = false/ SystemdCgroup = true/' /etc/containerd/config.toml
+sudo systemctl restart containerd.service
 sudo systemctl restart containerd
 sudo systemctl enable containerd
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.34/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
