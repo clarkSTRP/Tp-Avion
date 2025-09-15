@@ -73,6 +73,10 @@ sudo iptables -A INPUT -p udp --dport 8472 -j ACCEPT
 sudo iptables -A INPUT -s 171.15.75.0/24 -j ACCEPT # à adapter en fonction du CIDR des machines
 sudo modprobe br_netfilter
 sudo modprobe overlay
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
+```
+```
 sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
 net.bridge.bridge-nf-call-iptables = 1
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -83,16 +87,14 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sudo systemctl restart kubelet
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
-echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
-```
-```
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
 ```
 
 #### Ajout des pods au cluster
 ```
-/
+sudo apt install containerd containerd.io
+kubeadm join 171.15.75.236:6443 --token t65l47.j1mlhfuearjmzbo0 \
+	--discovery-token-ca-cert-hash sha256:6da47bb9667a82384049da2dfc492271c1f76fc1450c8ddd72e0689ad13a591f 
 ```
 </details>
 
