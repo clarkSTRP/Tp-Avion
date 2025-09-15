@@ -92,9 +92,7 @@ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be008450
 
 #### Ajout des pods au cluster
 ```
-sudo apt install containerd containerd.io
-kubeadm join 171.15.75.236:6443 --token t65l47.j1mlhfuearjmzbo0 \
-	--discovery-token-ca-cert-hash sha256:6da47bb9667a82384049da2dfc492271c1f76fc1450c8ddd72e0689ad13a591f 
+kubeadm token create --print-join-command
 ```
 </details>
 
