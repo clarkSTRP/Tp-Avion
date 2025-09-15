@@ -244,4 +244,5 @@ volumes:
   db_data:
 ```
 
-## Tests unitaires ou d'intégration
+## Fonctionnement
+<img width="2138" height="1914" alt="Blank diagram - Page 1(2)" src="https://github.com/user-attachments/assets/f476e6be-aeb8-4424-b599-b3c38875459c" />
