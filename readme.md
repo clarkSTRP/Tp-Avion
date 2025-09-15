@@ -51,7 +51,7 @@ sudo swapoff -a
 sudo sed -i '/ swap / s/ˆ\(.*\)$/#\1/g' /etc/fstab
 echo "vm.swappiness=0" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
-sudo apt install -y apt-transport-https gpg containerd.io -y
+sudo apt install -y apt-transport-https gpg containerd.io ca-certificates curl -y
 sudo mkdir -p /etc/containerd
 sudo containerd config default | sudo tee /etc/containerd/config.toml
 sudo systemctl restart containerd
