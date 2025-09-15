@@ -66,6 +66,11 @@ sudo systemctl enable --now kubelet
 
 #### Initialisation du cluster sur la VM master
 ```
+for port in 6443 2379 2380 10250 10251 10252 10255 30000:32767; do
+    sudo iptables -A INPUT -p tcp --dport $port -j ACCEPT
+done
+sudo iptables -A INPUT -p udp --dport 8472 -j ACCEPT
+sudo iptables -A INPUT -s 171.15.75.0/24 -j ACCEPT # à adapter en fonction du CIDR des machines
 sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
 ```
