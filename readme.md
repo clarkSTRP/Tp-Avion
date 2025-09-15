@@ -90,6 +90,42 @@ Obtenir la commande pour relier au master (à exécuter sur le master). Cette co
 ```
 kubeadm token create --print-join-command
 ```
+---------------------------------------------------
+⚠️**A partir d'ici, ils s'agit d'un proof of concept. Nos commandes n'ont pas fonctionnées.**
+#### Conversion docker -> k8s
+Une fois les workers ajoutés, il faut convertir les `docker-compose.yml` pour qu'ils soient compatibles avec K8s.
+Pour cela, nous avons utilisé `kompose`, un outil non-officiel de conversion de docker-composer vers des fichiers de config k8s.
+```
+kompose convert -f docker-compose.yml
+```
+Cela nous a donné les fichiers suivant pour l'API:
+```
+- api-deployment.yaml
+- db-api-claim1-persistentvolumeclaim.yaml
+- db-api-deployment.yaml
+- api-service.yaml
+- db-api-data-persistentvolumeclaim.yaml
+- db-api-service.yaml
+```
+*Il aurait fallu répéter l'opération pour le micro-service de logs, ce que nous n'avons pas eu le temps de faire.*
+
+#### Initialisation des services
+Sur le worker `API`, nous avons initialisé les services avec les commandes suivantes:
+```
+kubectl apply -f db-api-data-persistentvolumeclaim.yaml
+kubectl apply -f db-api-deployment.yaml
+kubectl apply -f db-api-service.yaml
+kubectl apply -f api-deployment.yaml
+kubectl apply -f api-service.yaml
+```
+Ici, nous avons rencontré un problème de compatibilité du `Persistant Volume Claim (PVC)` avec le `StorageClass`, ainsi qu'une image qui a été introuvable.
+Cela est très probablement du à une mauvaise configuration faite lors de l'usage de `kompose`.
+
+#### Proof of concept
+Pour prouver le bon fonctionnement de notre installation, nous avons réalisé une installation simple d'un service `MySQL` en se référrant à [cette documentation](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/).
+La capture d'écran ci-dessous montre le bon déploiement de la soltion dans le cluster:
+<img width="1892" height="947" alt="image" src="https://github.com/user-attachments/assets/78e42d08-093e-49eb-a94e-b35a50c1ebe1" />
+
 
 </details>
 
