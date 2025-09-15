@@ -63,6 +63,13 @@ sudo apt-get update
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 sudo systemctl enable --now kubelet
+sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
+net.bridge.bridge-nf-call-iptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward = 1
+EOF
+sudo sysctl --system
+mkdir -p $HOME/.kube
 ```
 
 #### Initialisation du cluster sur la VM master
@@ -78,13 +85,6 @@ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
 echo "Notez la commande ci-dessus, puis passez à l'étape suivante ^^^^^^"
 ```
 ```
-sudo tee /etc/sysctl.d/kubernetes.conf <<EOF
-net.bridge.bridge-nf-call-iptables = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-net.ipv4.ip_forward = 1
-EOF
-sudo sysctl --system
-mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 sudo systemctl restart kubelet
