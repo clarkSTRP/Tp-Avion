@@ -66,7 +66,7 @@ sudo systemctl enable --now kubelet
 
 #### Initialisation du cluster sur la VM master
 ```
-for port in 6443 2379 2380 10250 10251 10252 10255 30000:32767; do
+for port in 6443 2379 10248 2380 10250 10251 10252 10255 30000:32767; do
     sudo iptables -A INPUT -p tcp --dport $port -j ACCEPT
 done
 sudo iptables -A INPUT -p udp --dport 8472 -j ACCEPT
